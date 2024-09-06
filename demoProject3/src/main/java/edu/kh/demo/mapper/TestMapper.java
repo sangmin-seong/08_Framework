@@ -1,6 +1,11 @@
 package edu.kh.demo.mapper;
 
+import java.util.List;
+
+import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Mapper;
+
+import edu.kh.demo.dto.UserDto;
 
 
 /* @Mapper
@@ -19,4 +24,22 @@ public interface TestMapper {
 	// -> 해당 메서드가 호출된 경우
 	//		연결되어져 있는 mapper.xml파일에서
 	//    id 속성값이 메서드명과 같은 sql 태그가 수행된다
+
+	/** 사용자 전체 조회
+	 * mapper.xml 파일에서 resultType이 DTO로 설정되어 있는데
+	 * 반환형은 List<DTO> 형태라서 다르다고 생각 할 수 있지만
+	 * 한 행이 조회 될 때마다 List에 DTO가 add 되는 것이다!
+	 * @return userList
+	 */
+	List<UserDto> selectAll();
+
+	UserDto selectUser(int userNo);
+
+	int updateUser(UserDto user);
+
+	int deleteUser(int userNo);
+
+	int insertUser(UserDto user);
+
+
 }
