@@ -21,6 +21,8 @@ public interface TodoListService {
 
 	int todoUpdate(Todo todo);
 
+	String searchTitle(int todoNo);
+
 
 
 }

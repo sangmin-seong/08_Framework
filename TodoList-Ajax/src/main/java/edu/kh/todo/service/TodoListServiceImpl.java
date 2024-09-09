@@ -66,4 +66,10 @@ public class TodoListServiceImpl implements TodoListService{
 	public int todoUpdate(Todo todo) {
 		return mapper.todoUpdate(todo);
 	}
+	
+	
+	@Override
+	public String searchTitle(int todoNo) {
+		return mapper.searchTitle(todoNo);
+	}
 }

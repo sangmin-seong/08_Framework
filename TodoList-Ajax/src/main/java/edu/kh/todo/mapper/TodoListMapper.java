@@ -23,5 +23,7 @@ public interface TodoListMapper {
 
 	int todoUpdate(Todo todo);
 
+	String searchTitle(int todoNo);
+
 	
 }

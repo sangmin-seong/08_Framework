@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="|${todoTitle} 상세 조회|"></title>
+  <link rel="stylesheet" href="/css/detail.css">
+</head>
+<body>
+  <h1 th:text="${todo.todoTitle}"></h1>
+
+  <div>
+    완료 여부 : 
+    <span th:classappend = "${todo.todoComplete} == 1 ? 'green' : 'red' "
+          th:text="${todo.todoComplete} == 1 ? 'O' : 'X'">O</span>
+  <div>
+    작성일 : <th:block th:text="${todo.regDate}"></th:block>
+  </div>
+
+  <div class="content" th:text="${todo.todoDetail}">${todo.detail}</div>
+
+
+  <div class="btn-container">
+    <div>
+      <button id="goToList">목록으로</button>
+    </div>
+    
+    <div>
+      <button id="completeBtn">완료 여부 변경</button>
+      <button id="updateBtn">수정</button>
+      <button id="deleteBtn">삭제</button>
+    </div>
+  </div>
+
+  <th:block th:replace= "~{common/footer}"></th:block>
+  <script src = "/js/detail.js"></script>
+</body>
+</html>
