@@ -82,5 +82,9 @@
 			WHERE TODO_NO = #{todoNO}
 	</select>
 	
+		<!-- 전체 할 일 개수 조회 -->
+	<select id="getTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM TB_TODO
+	</select>
 	
 </mapper>

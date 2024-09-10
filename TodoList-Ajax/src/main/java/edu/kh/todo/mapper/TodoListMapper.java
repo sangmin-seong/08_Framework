@@ -25,5 +25,10 @@ public interface TodoListMapper {
 
 	String searchTitle(int todoNo);
 
+	int getTotalCount();
+
+	int getCompleteCount();
+
+	
 	
 }
