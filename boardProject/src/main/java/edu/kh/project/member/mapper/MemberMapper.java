@@ -12,5 +12,15 @@ public interface MemberMapper {
 	 * @return loginMember / null
 	 */
 	Member login(String memberEmail);
+
+	int signUp(Member inputMember);
+
+	int emailCheck(String email);
+
+	int nickCheck(String nickname);
+
+	int telCheck(String tel);
+	
+	
 	
 }

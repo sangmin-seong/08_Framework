@@ -35,5 +35,43 @@
 	</select>
 	 <!-- MEMBER_DEL_FL = 'N' -> 탈퇴하지 않은 회원 == 정상 회원 -->
 	 
-	 
+	<insert id="signUp">
+		INSERT INTO "MEMBER"
+		VALUES(
+		SEQ_MEMBER_NO.NEXTVAL, 
+		#{memberEmail}, 
+		#{memberPw},
+	 	#{memberNickname}, 
+	 	#{memberTel}, 
+	 	#{memberAddress}
+	 	, NULL, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	
+	<select id="emailCheck"
+			resultType="_int">
+		SELECT COUNT(*)
+		FROM "MEMBER"
+		WHERE MEMBER_EMAIL = #{email}
+		AND MEMBER_DEL_FL = 'N'
+	</select>
+	
+	
+	<select id="nickCheck"
+			resultType="_int">
+		SELECT COUNT(*)		
+		FROM "MEMBER"
+		WHERE MEMBER_NICKNAME = #{nickname}
+		AND MEMBER_DEL_FL = 'N'
+	</select>
+	
+	
+	<select id="telCheck"
+			resultType="_int">
+		SELECT COUNT(*)		
+		FROM "MEMBER"
+		WHERE MEMBER_TEL = #{tel}
+		AND MEMBER_DEL_FL = 'N'
+	</select>
+	
+	
 </mapper>

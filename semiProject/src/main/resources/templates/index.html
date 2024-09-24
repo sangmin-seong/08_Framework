@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{app.name}">messages.properties 값 출력</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+   
+<!-- templates/common/common.html 조각으로 추가 -->
+<th:block th:replace="~{common/common}"></th:block>
+</head>
+<body>
+
+  <main>
+
+    <!-- common/header.html 을 조각으로 추가 -->
+    <th:block th:replace="~{common/header}"></th:block>
+
+
+    <!-- 메인 페이지 내용  -->
+    <section class="content">
+
+      <section class="content-1">
+        <!-- 확인, 보충 등등 그때 그때 사용 -->
+
+        <!-- session에 loginMember 있으면 출력 -->
+        <th:block th:text="${session.loginMember}"></th:block>
+
+
+      </section>
+
+
+
+       <!-- session에 loginMember가 있을 경우 -->
+       <th:block th:if= "${session.loginMember}">
+        <article class="login-area">
+            
+          <a href="/myPage/profile">
+            <!-- 프로필 이미지 -->
+
+            <!-- messages.properties에 작성된 기본 사용자 이미지 -->
+            <img th:with="user=#{user.default.image}" 
+                 th:src="${session.loginMember.profileImg ?: user }"
+                 id="memberProfile"
+                 alt="프로필 이미지" >
+          </a>
+
+          <!-- 닉네임, 이메일, 로그아웃 버튼 영역 -->
+          <div class="my-info" th:object="${session.loginMember}">
+
+            <div>
+              <a href="/myPage/info" id="nickname" th:text="*{memberNickname}">닉네임</a>
+
+              <a href="/member/logout" id="logoutBtn">로그아웃</a>
+            </div>
+
+            <p th:text="*{memberEmail}">이메일</p>
+
+          </div>
+        </article>
+       </th:block>
+
+      </section>
+
+    </section>
+  </main>
+
+
+  <!-- common/footer.html 추가 -->
+  <th:block th:replace="~{common/footer}"></th:block>
+
+  <script src = "/js/main.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>

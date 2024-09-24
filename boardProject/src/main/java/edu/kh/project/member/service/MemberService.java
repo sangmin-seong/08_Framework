@@ -11,4 +11,13 @@ public interface MemberService {
 	 */
 	Member login(String memberEmail, String memberPw);
 
+	int signUp(Member inputMember);
+
+	int emailCheck(String email);
+
+	int nickCheck(String nickname);
+
+	int telCheck(String tel);
+
+
 }

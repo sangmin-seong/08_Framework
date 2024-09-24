@@ -35,9 +35,31 @@
     </article>
   </section>
 
+  <section>
+    <!-- 우측 상단 드롭다운메뉴 -->
+    <div class="header-top-menu">
+      <th:block th:unless= "${session.loginMember}">
+        <a href="/">메인페이지</a>
+        <span>|</span>
+        <a href="/member/login">로그인</a>
+      </th:block>
+      
+      <th:block th:if= "${session.loginMember}">
+        <label for="headerMenuToggle">
+          [[${session.loginMember.memberNickname}]]
 
-  <!-- 안쓰는 섹션 -->
-  <section></section>
+          <i class="fa-solid fa-caret-down"></i>
+        </label>
+
+        <input type="checkbox" id="headerMenuToggle">
+
+        <div class="header-menu">
+          <a href="#">내정보</a>
+          <a href="/member/logout">로그아웃</a>
+        </div>
+      </th:block>
+    </div>
+  </section>
 
 
 </header>

@@ -1,0 +1,89 @@
+<header>
+  <section>
+    <!-- 클릭 시 메인 페이지로 이동하는 로고 -->
+    <a href="/">
+      <img src="/images/logo.jpg" alt="메인 로고" id="homeLogo">
+    </a>
+  </section>
+
+  <!-- 검색어 입력할 수 있는 요소 배치 영역 -->
+
+  <section>
+    <article class="search-area">
+      <form action="#" method="GET">
+        <fieldset>
+
+          <!-- autocomplete="off" : 자동완성 off -->
+          <input type="search" 
+                 id="query" 
+                 name="query"
+                 placeholder="검색어를 입력해 주세요."
+                 autocomplete="off"
+          >
+
+          <!-- 제목 검색 -->
+          <input type="hidden" name="key" value="t">
+
+          <!-- 검색 버튼 -->
+          <button id="searchBtn" class="fa-solid fa-magnifying-glass"></button>
+
+        </fieldset>
+      </form>
+
+      <!-- 검색 결과 -->
+      <ul id="searchResult" class="close"></ul>
+
+    </article>
+  </section>
+
+
+  <!-- 안쓰는 섹션 -->
+  <section>
+    <article class="signup-find-area">
+      <a href="member/login">로그인</a>
+      <span> | </span>
+      <a href="member/add">회원가입</a>
+      <span> | </span>
+      <a href="member/searchInfo">ID/PW 찾기</a>
+    </article>
+  </section>
+
+
+</header>
+
+
+<!-- navigator -->
+<nav class="navbar">
+  <ul class="nav-items">
+      <li class="nav-item">
+          <a href="#">홈</a>
+          <div class="dropdown-content">
+              <a href="#">서브메뉴 1</a>
+              <a href="#">서브메뉴 2</a>
+          </div>
+      </li>
+      <li class="nav-item">
+          <a href="#">제품</a>
+          <div class="dropdown-content">
+              <a href="#">제품 1</a>
+              <a href="#">제품 2</a>
+              <a href="#">제품 3</a>
+          </div>
+      </li>
+      <li class="nav-item">
+          <a href="#">서비스</a>
+          <div class="dropdown-content">
+              <a href="#">서비스 A</a>
+              <a href="#">서비스 B</a>
+          </div>
+      </li>
+      <li class="nav-item">
+          <a href="#">문의</a>
+          <div class="dropdown-content">
+              <a href="#">이메일</a>
+              <a href="#">전화</a>
+          </div>
+      </li>
+  </ul>
+  <button class="dropdown-btn">▼</button>
+</nav>

@@ -1,0 +1,52 @@
+아래 이미지와 같은 기능을 수행하기 위해 
+Spring Boot, ThymeLeaf, Mybatis 코드를 작성하였으나 정상 수행되지 않았다
+제시된 코드를 분석하여 문제 원인(발생 지점 + 이유)과 
+조치 방법(설명 + 코드)을 작성하시오.
+
+(개발 환경 및 각종 설정 파일, 라이브러리는 정상적으로 세팅되어 있다고 가정)
+
+(파일의 패키지, 경로, 요청 주소를 잘 확인할 것)
+
+원인)
+1. (index.html) "/customer/insertCustomer" 로 요청주소를 보내었으나, 
+   (CustomerController클래스) @PostMapping("insertCustomer")로 
+   요청 주소가 잘못 기재되어 응답할 수 없음.
+
+2. (CustomerServiceImpl 클래스) CustomerMapper클래스를 호출하여 사용하기 위해
+   private CustomerMapper mapper; 구문을 사용하였으나, 의존성 주입(DI)하지 않은 상태에서
+   사용할 수 없는 구문이다.
+
+
+3. (customer-mapper.xml) <insert id="insert" parameterType="Customer">로 작성되어 있는 구문이 잘못 작성됨.
+   id부분은 구문을 찾아내기 위해 사용되는 네임스페이스 내 유일한 구분자이다. 따라서 Mapper 인터페이스의 메서드명과
+   동일하게 작성하여야 하나 현재 "insert"로 잘못 작성되어 있음.
+
+
+
+4. (customer-mapper.xml)
+   VALUES(SEQ_CUSTOMER_NO.NEXTVAL, #{name}, #{tel}, #{address})와 같이 작성되어 있음.
+   현재 전달된 값은 "Customer"로 전달받은 파라미터가 DTO일 경우, SQL에 필드명을 작성하여야하나
+   임의의 필드명인 "name", "tel", "address"가 작성되어 있음.
+
+
+
+
+조치내용)
+1. (CustomerController클래스) 클래스명 위에 @RequestMapping("customer")을 추가하여 매핑하거나,
+   @PostMapping("customer/insertCustomer")로 수정하여 매핑하여야함.
+
+2. ① @Autowired
+       private CustomerMapper mapper;으로 수정하여 DI(의존성 주입)를 하고,
+       등록된 Bean 중에서 자료형이 같은 Bean을 얻어와 필드에 대입할 수 있도록 한다.
+   ② private CustomerMapper mapper = new CustomerMapper(); 와 같이
+       new 연산자를 사용하여 객체로 만든다. 
+ 
+3. <insert id="insert" parameterType="Customer">로 작성되어 있는 구문이 잘못 작성됨.
+   id부분은 구문을 찾아내기 위해 사용되는 네임스페이스 내 유일한 구분자이다.
+   그래서 Mapper 인터페이스의 메서드명과 동일하게 작성하여야 하나 현재 "insert"로 잘못 작성되어 있음.
+   ==> <insert id="insertCustomer" parameterType="Customer"> 와 같이 수정해야 한다.
+
+4. Customer DTO 클래스에 작성된 필드명으로 수정한다.
+   DBconfig에서 "com.kh.test"부분을 별칭으로 선언 하였기 때문에 필드명만 작성하여도 된다.
+   ==> VALUES(SEQ_CUSTOMER_NO.NEXTVAL, #{customerName}, #{customerTel}, #{customerAddress})
+

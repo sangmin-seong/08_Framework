@@ -77,6 +77,38 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	
+	@Override
+	public int signUp(Member inputMember) {
+		
+		// 1) 비밀번호 암호화
+		String encPw = encorder.encode(inputMember.getMemberPw());
+		inputMember.setMemberPw(encPw);
+		
+		// 2) 주소 미입력 시 null로 변경
+		if(inputMember.getMemberAddress().equals(",,")) {
+			inputMember.setMemberAddress(null);
+		}
+		
+		int result = mapper.signUp(inputMember);
+		
+		return result;
+	}
+	
+	@Override
+	public int emailCheck(String email) {
+		return mapper.emailCheck(email);
+	}
+	
+	
+	@Override
+	public int nickCheck(String nickname) {
+		return mapper.nickCheck(nickname);
+	}
+	
+	@Override
+	public int telCheck(String tel) {
+		return mapper.telCheck(tel);
+	}
 	
 	
 	

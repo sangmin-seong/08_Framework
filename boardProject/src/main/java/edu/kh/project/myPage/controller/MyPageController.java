@@ -1,0 +1,234 @@
+package edu.kh.project.myPage.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import edu.kh.project.member.dto.Member;
+import edu.kh.project.myPage.service.MyPageService;
+
+//@SessionAttribute"s" 용도 
+//1. Model을 이용하여 값을 request -> session으로 scope 변경
+//2. @SessionAttribute를 이용해 
+//	 @SessionAttribute"s"에 의해서 session에 등록된 값을 
+//   얻어올 수 있음
+
+@SessionAttributes({"loginMember"})
+@Controller
+@RequestMapping("myPage")
+public class MyPageController {
+
+	
+	@Autowired
+	private MyPageService service;
+
+
+	/** 마이페이지(내 정보) 전환
+	 * @param loginMember : 세션에 저장된 로그인한 회원 정보
+	 * @param model : 데이터 전달하는 객체(request)
+	 * @return
+	 */
+	@GetMapping("info")
+	public String info(
+			@SessionAttribute("loginMember") Member loginMember,
+			Model model
+			) {
+		
+		if(loginMember.getMemberAddress() != null) {
+			
+			// 주소를 , 기준으로 쪼개서 String[] 형태로 반환
+			String[] arr = loginMember.getMemberAddress().split(",");
+			
+			
+			model.addAttribute("postcode", arr[0]);
+			model.addAttribute("address", arr[1]);
+			model.addAttribute("detailAddress", arr[2]);
+		}
+		
+		
+		return "myPage/myPage-info";
+	}
+	
+	/** 내 정보 수정
+	 * @param inputMember : 수정할 닉네임, 전화번호, 주소
+	 * @param loginMember : 현재 로그인된 회원 정보
+	 * 	session에 저장된 Member 객체의 주소가 반환됨
+	 *  == session에 저장된 Member 객체의 데이터를 수정할 수 있음
+	 * @return
+	 */
+	@PostMapping("info")
+	public String updateInfo(
+			@ModelAttribute Member inputMember,
+			@SessionAttribute("loginMember") Member loginMember,
+			RedirectAttributes ra
+			) {
+			// @SessionAttribute("key")
+			// - @SessionAttribute"s"를 통해 session에 올라간 값을 얻어오는
+			//   어노테이션
+			
+			// 
+		
+	// 1. inputMember에 로그인된 회원 번호를 추가
+		int memberNo = loginMember.getMemberNo(); 
+		inputMember.setMemberNo(memberNo);
+		
+	// 2. 회원 정보 수정 서비스 호출 후 결과 반환 받기
+		int result = service.updateInfo(inputMember);
+		
+	// 3. 수정 결과에 따라 message 지정
+		String message = null;
+		
+		if(result > 0) {
+			message = "수정 성공!!!";
+			// 4. 수정 성공 시, 
+			//    session 저장된 로그인 회원 정보를
+			//    수정값으로 변경해서 DB와 같은 데이터를 가지게 함(== 동기화)
+			loginMember.setMemberNickname(inputMember.getMemberNickname());
+			loginMember.setMemberTel(inputMember.getMemberTel());
+			loginMember.setMemberAddress(inputMember.getMemberAddress());
+		}else {
+			message = "수정 실패....";
+		}
+			
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:info";
+	}
+	
+	/** (비동기) 닉네임 중복 검사
+	 * @param input
+	 * @return 0 : 중복X / 1 : 중복O
+	 */
+	@GetMapping("checkNickname")
+	@ResponseBody
+	public int chechNickname(@RequestParam("input") String input) {
+		
+		return service.checkNickname(input);
+	}
+	
+	/* @RequestParam 
+	 *  - 요청 시 제출된 데이터(쿼리스트링, input)를 얻어와
+	 *    매개변수에 저장하는 어노테이션
+	 *    
+	 * @RequestMapping
+	 *  - 요청 주소에 따라서
+	 *    알맞은 컨트롤러 클래스/메서드에 연결하는 어노테이션
+	 * 
+	 * @RequestBody
+	 *  - 비동기 요청 시 body에 담겨져 전달되는 데이터를
+	 *    매개변수에 저장하는 어노테이션
+	 * 
+	 * @ResponseBody
+	 *  - 비동기 요청 코드(응답 본문)에
+	 *    컨트롤러 반환 값을 그대로 전달하는 어노테이션
+	 * 
+	 * 
+	 */
+	
+	/** 비밀번호 변경화면으로
+	 * @return
+	 */
+	@GetMapping("changePw")
+	public String changePw() {
+		return "myPage/myPage-changePw";
+	}
+	
+	
+	/** 비밀번호 변경
+	 * @param currentPw : 현재 비밀번호
+	 * @param newPw : 변경하려는 새 비밀번호
+	 * @param loginMember : 세션에서 얻어온 로그인한 회원 정보
+	 * @param ra : 리다이렉트 시 request scope로 데이터 전달하는 객체
+	 * @return
+	 */
+	@PostMapping("changePw")
+	public String changePw(
+			@RequestParam("currentPw") String currentPw,
+			@RequestParam("newPw") String newPw,
+			@SessionAttribute("loginMember") Member loginMember,
+			RedirectAttributes ra
+			) {
+		
+		//서비스 호출 후 결과 반환받기
+		int result = service.changePw(currentPw, newPw, loginMember);
+		
+		String message = null;
+		String path = null;
+		
+		// 결과에 따른 응답제어
+		if(result > 0) {
+			message = "비밀번호가 변경되었습니다.";
+			path = "info"; // 내 정보 페이지로 redirect;
+		}else {
+			message = "현재 비밀번호가 일치하지 않습니다.";
+			path = "changePw"; // 비밀번호 변경페이지로 redirect
+		}
+		
+		
+		ra.addFlashAttribute("message", message);
+		
+		// 현재 컨트롤러 메서드 매핑 주소 : /myPage/changePw(POST)
+		// 리다이렉트 주소 : redirect:+path-> /myPage/info, changePw(GET)
+		return "redirect:" + path;
+	}
+	
+	/** 회원 탈퇴 페이지로 전환
+	 * @return
+	 */
+	@GetMapping("secession")
+	public String secession() {
+		return "myPage/myPage-secession";
+	}
+	
+	/** 회원 탈퇴 수행
+	 * @param memberPw : 입력된 비밀번호
+	 * @param loginMember : 로그인한 회원 정보(session)
+	 * @param ra : 리다이렉트 시 request scope 데이터 전달
+	 * @param status : @SessionAttributes로 관리되는 
+	 * 								세션 데이터의 상태 제어(세션 만료)
+	 * @return
+	 */
+	@PostMapping("secession")
+	public String secession(
+			@RequestParam("memberPw") String memberPw,
+			@SessionAttribute("loginMember") Member loginMember,
+			RedirectAttributes ra,
+			SessionStatus status
+			){
+		
+		// 서비스 호출
+		int result = service.secession(memberPw, loginMember);		
+		
+		String message = null;
+		String path = null;
+		
+		if(result > 0) {
+			message = "탈퇴 되었습니다.";
+			path    = "/";
+			status.setComplete(); // 세션만료 -> 로그아웃
+		}else {
+			message = "비밀번호가 일치하지 않습니다.";
+			path    = "secession";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:" + path; 
+	}
+	
+	
+	
+	
+	
+}

@@ -31,7 +31,7 @@ public class UserController {
 	
 	/** 사용자 번호를 입력받아 일치하는 사용자의 이름 조회
 	 * @param userNo : 제출된 파라미터 중 key 값이 "userNo"인 값
-	 * @param model  : Sptring에서 사용하는 데이터 전달용 객체(request)
+	 * @param model  : Spring에서 사용하는 데이터 전달용 객체(request)
 	 * @return
 	 */
 	@GetMapping("test1")
