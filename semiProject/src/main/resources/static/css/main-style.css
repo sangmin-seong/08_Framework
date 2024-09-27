@@ -46,9 +46,9 @@ header{
   flex-direction: row; /* 중심축 가로 방향(기본값) */
 }
 
-header > section:first-child{ width: 15%; }
-header > section:nth-child(2){ width: 70%; }
-header > section:last-child{ width: 15%; }
+header > section:first-child{ width: 20%; }
+header > section:nth-child(2){ width: 60%; }
+header > section:last-child{ width: 25%; }
 
 
 /* 로고 */
@@ -172,7 +172,8 @@ nav a:hover{
 
 /* 로그인 영역 */
 #loginForm{
-  height: 150px;
+  width: 300px;
+  height: 300px;
   padding: 10px;
   margin-top: 10px;
 

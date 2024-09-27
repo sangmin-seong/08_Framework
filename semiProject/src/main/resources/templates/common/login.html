@@ -9,7 +9,7 @@
   <th:block th:replace="~{common/common}"></th:block>
 
   <!-- myPage 전용 CSS -->
-  <link rel="stylesheet" href="/css/myPage/myPage-style.css">
+  <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
 
@@ -37,39 +37,41 @@
           <!-- session에 loginMember가 없을 경우 -->
           <th:block th:unless="${session.loginMember}">
             <!-- 로그인 박스 -->
-            <form action="/member/login" method="POST" id="loginForm">
-              <fieldset class="id-pw-area">
-    
-                <!-- 아이디/비밀번호 입력 -->
-                <section>
-                  <input type="text" 
-                         name="memberEmail"
-                         placeholder="이메일">
-    
-                  <input type="password" 
-                         name="memberPw" 
-                         placeholder="비밀번호">
-                </section>
-    
-                <!-- 로그인 버튼 -->
-                <section>
-                  <button>로그인</button>
-                </section>
-              </fieldset>
-    
-              <label>
-                <!-- label 태그 : input 태그의 제목을 나타내는 태그  -->
-                <input type="checkbox" name="saveEmail">
-                이메일 저장
-              </label>
-    
-              <article class="signup-find-area">
-                <a href="#">회원가입</a>
-                <span> | </span>
-                <a href="#">ID/PW 찾기</a>
-              </article>
-    
-            </form>
+            <div>
+              <form action="/member/login" method="POST" id="loginForm">
+                <fieldset class="id-pw-area">
+      
+                  <!-- 아이디/비밀번호 입력 -->
+                  <section>
+                    <input type="text" 
+                           name="memberEmail"
+                           placeholder="이메일">
+      
+                    <input type="password" 
+                           name="memberPw" 
+                           placeholder="비밀번호">
+                  </section>
+      
+                  <!-- 로그인 버튼 -->
+                  <section>
+                    <button>로그인</button>
+                  </section>
+                </fieldset>
+      
+                <label>
+                  <!-- label 태그 : input 태그의 제목을 나타내는 태그  -->
+                  <input type="checkbox" name="saveEmail">
+                  이메일 저장
+                </label>
+      
+                <article class="signup-find-area">
+                  <a href="member/add">회원가입</a>
+                  <span> | </span>
+                  <a href="member/searchInfo">ID/PW 찾기</a>
+                </article>
+      
+              </form>
+            </div>
          </th:block>
   
          <!-- session에 loginMember가 있을 경우 -->

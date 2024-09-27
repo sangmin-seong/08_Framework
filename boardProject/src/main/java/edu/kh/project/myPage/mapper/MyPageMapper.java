@@ -43,5 +43,10 @@ public interface MyPageMapper {
 
 	int secession(
 			@Param("memberNo") int memberNo);
+
+
+	int profile(
+			@Param("url") String url,
+			@Param("memberNo") int memberNo);
 	
 }
