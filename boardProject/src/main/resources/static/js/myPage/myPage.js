@@ -88,17 +88,17 @@ memberNickname?.addEventListener("input", ()=>{
   // - 영어 또는 숫자 또는 한글만 작성 가능
   // - 3글자 ~ 10글자
   
-  const lengthCheck = inputValue.length >= 3 && inputValue.length <= 10;
-  const validCharactersCheck = /^[a-zA-Z0-9가-힣]+$/.test(inputValue); // 영어, 숫자, 한글만 허용
+const lengthCheck = inputValue.length >= 3 && inputValue.length <= 10;
+const validCharactersCheck = /^[a-zA-Z0-9가-힣]+$/.test(inputValue); // 영어, 숫자, 한글만 허용
 
-  if(!(lengthCheck && validCharactersCheck) ){
-    memberNickname.classList.remove("green");
-    memberNickname.classList.add("red");
+if(!(lengthCheck && validCharactersCheck) ){
+  memberNickname.classList.remove("green");
+  memberNickname.classList.add("red");
 
-    // 닉네임이 유효하지 않다고 기록
-    checkObj.memberNickname = false;
-    return;
-  }
+// 닉네임이 유효하지 않다고 기록
+  checkObj.memberNickname = false;
+  return;
+}
 
 
 

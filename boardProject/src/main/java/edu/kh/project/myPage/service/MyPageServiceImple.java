@@ -104,6 +104,8 @@ public class MyPageServiceImple implements MyPageService{
 			// 제출된 파일이 없음 == X 버튼을 눌러 기본 이미지로 변경
 			// == DB에 저장된 이미지 경로가 NULL
 			
+			int result = mapper.profile(null, memberNo);
+			
 			
 			
 			return null;
