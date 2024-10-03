@@ -69,7 +69,7 @@ const selectMemberList = () => {
     throw new Error("조회 오류");
   })
   .then(list => {
-    // console.log(list);
+    console.log(list);
 
     // 1) #memberList 기존 내용ㅇ 없애기
     memberList.innerHTML = "";
