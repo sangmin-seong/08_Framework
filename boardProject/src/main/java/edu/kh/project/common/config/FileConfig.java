@@ -32,6 +32,7 @@ public class FileConfig implements WebMvcConfigurer{
 	@Value("${spring.servlet.multipart.location}")
 	private String location; // 임계값 초과 시 임시 저장 폴더 경로
 	
+	
 	// --------------------------------------------
 	
 	// test 관련 값
@@ -48,8 +49,17 @@ public class FileConfig implements WebMvcConfigurer{
 	@Value("${my.profile.resource-location}")
 	private String profileResourceLocation; // 프로필 이미지 요청시 연결될 서버 폴더 경로
 	
+//----------------------------------------	
+	@Value("${my.board.resource-handler}")
+	private String boardResourecHandler;
 	
-
+	@Value("${my.board.resource-location}")
+	private String boardResourecLocation;
+	
+	
+	
+	
+	
 	/* MultipartResolver 설정 */
 	@Bean
 	public MultipartConfigElement configElement() {
@@ -97,6 +107,14 @@ public class FileConfig implements WebMvcConfigurer{
 			// /images/profile/로 시작하는 주소로 요청이 있을 경우
 			// 서버 컴퓨터에 C:/uploadFiles/profile/폴더로 연결
 		
+		registry
+		.addResourceHandler(boardResourecHandler)
+		.addResourceLocations(boardResourecLocation);
+		// /images/board/로 시작하는 주소로 요청이 있을 경우
+		// 서버 컴퓨터에 C:/uploadFiles/board/폴더로 연결
 	}
+	
+	
+	
 	
 }

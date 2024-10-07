@@ -58,8 +58,14 @@
 
                                 <td> 
                                    <!-- 썸네일 추가 예정 -->
-                                    
+                                    <img th:if= "*{thumbnail}"
+                                         th:src="*{thumbnail}" 
+                                         class="list-thumbnail">
+
                                    <!-- 상세조회 요청 주소 : /board/{boardCode}/{boardNo} -->
+                                    
+
+
                                    <!-- boardCode =1 -> 수정예정 -->
                                    <a th:href="@{/board/{boardCode}/{boardNo} (boardCode=1, boardNo=*{boardNo})}"
                                       th:text="*{boardTitle}">게시글 제목</a>
@@ -89,7 +95,8 @@
 
             <div class="btn-area">
                 <!-- 로그인 상태일 때만 글쓰기 버튼 노출 -->
-                <button id="insertBtn">글쓰기</button>                     
+                <button th:if= "${session.loginMember}"
+                id="insertBtn">글쓰기</button>                     
             </div>
 
 
