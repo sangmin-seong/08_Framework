@@ -89,8 +89,8 @@ public class EditBoardController {
 		}else { 
 			
 			message = "게시글을 등록하였습니다.";
-			//path = "board/" + boardCode + "/" + boardNo;
-			path = "/board/" + boardCode; //(임시)
+			path = "board/" + boardCode + "/" + boardNo;
+//			path = "/board/" + boardCode; //(임시)
 		}
 		
 		ra.addFlashAttribute("message", message);

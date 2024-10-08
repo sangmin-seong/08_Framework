@@ -89,4 +89,50 @@ public class BoardServiceImple implements BoardService{
 		return mapper.selectDetail(map);
 	}
 
+	// 조회 수 1 증가
+	@Override
+	public int updateReadCount(int boardNo) {
+		return mapper.updateReadCount(boardNo);
+	}
+	
+	// 좋아요 체크 or 해제
+	@Override
+	public Map<String, Object> boardLike(int boardNo, int memberNo) {
+		
+		// 1. 좋아요 누른 적 있는지 검사
+		int result = mapper.checkBoardLike(boardNo, memberNo);
+		
+		// 2. 좋아요 여부에 따라 INSERT / DELETE mapper 호출
+		int result2 = 0;
+		if(result == 0) {
+			result2 = mapper.insertBoardLike(boardNo, memberNo);
+		}else {
+			result2 = mapper.deleteBoardLike(boardNo, memberNo);
+		}
+		
+		// 3. insert / delete 성공 시 해당 게시글의 좋아요 개수 조회
+		int count = 0;
+		if(result2 > 0) {
+			count = mapper.getLikeCount(boardNo);
+		}else {
+			return null; // insert, delete 실패 시
+		}
+		
+		// 4. 좋아요 결과를 Map에 저장해서 반환 
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("count", count);
+		
+		if(result == 0) map.put("check", "insert");
+		else						map.put("check", "delete");
+		
+		
+		return map;
+	}
+	
+	// DB에서 모든 게시판 종류를 조회
+	@Override
+	public List<Map<String, String>> selectBoardTypeList() {
+		return mapper.selectBoardTypeList();
+	}
 }
