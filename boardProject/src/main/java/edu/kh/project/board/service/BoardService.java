@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.kh.project.board.dto.Board;
+import edu.kh.project.board.dto.Comment;
 
 public interface BoardService {
 
@@ -38,5 +39,20 @@ public interface BoardService {
 	 * @return 
 	 */
 	List<Map<String, String>> selectBoardTypeList();
+
+	
+	/** 댓글 목록 조회
+	 * @param boardNo
+	 * @return
+	 */
+	List<Comment> selectCommentList(int boardNo);
+
+	/** 검색 목록 조회
+	 * @param boardCode
+	 * @param cp
+	 * @param paramMap
+	 * @return map
+	 */
+	Map<String, Object> selectSearchList(int boardCode, int cp, Map<String, Object> paramMap);
 
 }
