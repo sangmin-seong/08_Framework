@@ -172,4 +172,10 @@ public class BoardServiceImple implements BoardService{
 		
 		return map;
 	}
+	
+	// 현재 게시글이 속해있는 페이지번호 조회
+	@Override
+	public int getCurrentPage(Map<String, Object> paramMap) {
+		return mapper.getCurrentPage(paramMap);
+	}
 }

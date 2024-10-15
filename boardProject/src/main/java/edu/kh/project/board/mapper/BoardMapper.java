@@ -103,4 +103,11 @@ public interface BoardMapper {
 	 */
 	List<Board> selectSearchList(Map<String, Object> paramMap, RowBounds rowBounds);
 
+	
+	/** 현재 게시글이 속해있는 페이지번호 조회
+	 * @param paramMap
+	 * @return
+	 */
+	int getCurrentPage(Map<String, Object> paramMap);
+
 }
