@@ -26,6 +26,7 @@ public class MainController {
 
 	@RequestMapping("/")
 	public String mainPage() {
+//		return "redirect:http://www.google.com";
 		return "common/main";
 	}
 	

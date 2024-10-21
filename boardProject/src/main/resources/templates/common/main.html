@@ -21,14 +21,17 @@
 
       <section class="content-1">
 
-        <table border="1" style="border-collapse: collapse;">
+        <table border="1" style="border-collapse: collapse;" 
+              class="list-table">
           <thead>
-            <th>회원 번호</th>
-            <th>이메일</th>
-            <th>탈퇴 상태</th>
-            <th>로그인</th>
-            <th>비밀번호 초기화</th>
-            <th>상태 변경</th>
+            <tr>
+              <th>회원 번호</th>
+              <th>이메일</th>
+              <th>탈퇴 상태</th>
+              <th>로그인</th>
+              <th>비밀번호 초기화</th>
+              <th>상태 변경</th>
+            </tr>
           </thead>
 
           <tbody id="memberList">
@@ -38,11 +41,11 @@
               <th>N</th>
               <th> <button>로그인</button> </th>
               <th> <button>비밀번호 초기화</button> </th>
-              <th> <button>탈퇴상태 변경</button> </th>
+              <th> <button>탈퇴 상태 변경</button> </th>
             </tr>
           </tbody>
-        </table>
 
+        </table>
 
       </section>
 
@@ -54,6 +57,7 @@
         <!-- th:unless : 조건식이 false인 경우 실행 -->
         <!-- session에 loginMember가 없을 경우 -->
         <th:block th:unless="${session.loginMember}">
+
           <!-- 로그인 박스 -->
           <form action="/member/login" method="POST" id="loginForm">
             <fieldset class="id-pw-area">
@@ -88,36 +92,41 @@
             </article>
   
           </form>
-       </th:block>
+        </th:block>
 
-       <!-- session에 loginMember가 있을 경우 -->
-       <th:block th:if= "${session.loginMember}">
-        <article class="login-area">
+
+        <!-- session에 loginMember가 있을 경우 -->
+        <th:block th:if="${session.loginMember}">
+
+          <article class="login-area">
             
-          <a href="/myPage/profile">
-            <!-- 프로필 이미지 -->
+            <a href="/myPage/profile">
+              <!-- 프로필 이미지 -->
 
-            <!-- messages.properties에 작성된 기본 사용자 이미지 -->
-            <img th:with="user=#{user.default.image}" 
-                 th:src="${session.loginMember.profileImg ?: user }"
-                 id="memberProfile"
-                 alt="프로필 이미지" >
-          </a>
+              <!-- messages.properties에 작성된 기본 사용자 이미지 -->
+              <img th:with="user=#{user.default.image}" 
+                   th:src="${session.loginMember.profileImg ?: user }"
+                   id="memberProfile"
+                   alt="프로필 이미지" >
+            </a>
 
-          <!-- 닉네임, 이메일, 로그아웃 버튼 영역 -->
-          <div class="my-info" th:object="${session.loginMember}">
+            <!-- 닉네임, 이메일, 로그아웃 버튼 영역 -->
+            <div class="my-info" th:object="${session.loginMember}">
 
-            <div>
-              <a href="/myPage/info" id="nickname" th:text="*{memberNickname}">닉네임</a>
+              <div>
+                <a href="/myPage/info" id="nickname" th:text="*{memberNickname}">닉네임</a>
 
-              <a href="/member/logout" id="logoutBtn">로그아웃</a>
+                <a href="/member/logout" id="logoutBtn">로그아웃</a>
+              </div>
+
+              <p th:text="*{memberEmail}">이메일</p>
+
             </div>
+          </article>
 
-            <p th:text="*{memberEmail}">이메일</p>
+        </th:block>
 
-          </div>
-        </article>
-       </th:block>
+
 
       </section>
 
@@ -128,7 +137,9 @@
   <!-- common/footer.html 추가 -->
   <th:block th:replace="~{common/footer}"></th:block>
 
-  <script src = "/js/main.js"></script>
+
+  <script src="/js/main.js"></script>
+
 
 </body>
 </html>

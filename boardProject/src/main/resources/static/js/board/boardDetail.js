@@ -29,6 +29,16 @@ boardLike.addEventListener("click", e=>{
     if(result.check === "insert"){
       boardLike.classList.add("fa-solid");
       boardLike.classList.remove("fa-reqular");
+      
+      const content
+        = `<strong>${memberNickname}</strong> 님이 <strong>${boardDetail.boardTitle}</strong> 게시글을 좋아합니다`;
+
+      sendNotification(
+        "boardLike",
+        location.pathname,// 게시글 상세조회 페이지 주소
+        boardDetail.boardNo,
+        content
+      );
     }else{
       boardLike.classList.remove("fa-solid");
       boardLike.classList.add("fa-reqular");
@@ -151,3 +161,5 @@ goToListBtn.addEventListener("click", () => {
   // /board/{boardCode}/{boardNo}/goToList?limit=10&key=t&query=검색어
 
 });
+
+
